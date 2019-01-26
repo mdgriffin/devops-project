@@ -1,5 +1,5 @@
 var Config = (function () {
-    var contextRoot = '/teamtorc-lms';
+    var contextRoot = '';
 
     return {
         contextRoot: contextRoot,

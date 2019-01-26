@@ -15,22 +15,10 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.Collections;
 
-/*
-@SpringBootApplication
-@EnableJpaAuditing
-public class Application {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-
-}
-*/
-
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableScheduling
-public class Application extends SpringBootServletInitializer {
+public class Application {
 
     public static final String EMAIL_TEMPLATE_ENCODING = "UTF-8";
 
@@ -38,10 +26,12 @@ public class Application extends SpringBootServletInitializer {
         SpringApplication.run(Application.class, args);
     }
 
+    /*
     @Override
     protected SpringApplicationBuilder configure (SpringApplicationBuilder builder) {
         return builder.sources(Application.class);
     }
+    */
 
     @Bean
     public TemplateEngine emailTemplateEngine() {
