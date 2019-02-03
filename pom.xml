@@ -125,6 +125,16 @@
                     <forkCount>0</forkCount>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>0.9.0</version>
+                <configuration>
+                    <to>
+                        <image>gcr.io/devops-project-230622/devops-application</image>
+                    </to>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
