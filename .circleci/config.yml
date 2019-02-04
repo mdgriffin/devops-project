@@ -24,6 +24,11 @@ jobs:
     #    - add_ssh_keys:
     #        fingerprints:
     #        - "b7:45:74:68:9e:45:aa:c5:20:e2:34:4d:42:8d:26:74"
+
+
+    - run: apt-get install -y sudo # https://discuss.circleci.com/t/sudo-command-not-found/14208/4
+    - run: ls -al /bin/sh && sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh && ls -al /bin/sh
+
     - run: |
         echo $GCLOUD_SERVICE_KEY | sudo gcloud auth activate-service-account --key-file=-
         gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
