@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
     # specify the version you desire here
-    - image: circleci/openjdk:8-jdk
+    - image: google/cloud-sdk
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -24,6 +24,11 @@ jobs:
     #    - add_ssh_keys:
     #        fingerprints:
     #        - "b7:45:74:68:9e:45:aa:c5:20:e2:34:4d:42:8d:26:74"
+    - run: |
+        echo $GCLOUD_SERVICE_KEY | sudo gcloud auth activate-service-account --key-file=-
+        gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+        gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+
     - checkout
 
     # Download and cache dependencies
