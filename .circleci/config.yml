@@ -25,7 +25,7 @@ jobs:
     #        fingerprints:
     #        - "b7:45:74:68:9e:45:aa:c5:20:e2:34:4d:42:8d:26:74"
 
-    - run: sudo apt-get update && sudo apt-get install google-cloud-sdk
+    - run: curl https://dl.google.com/dl/cloudsdk/release/install_google_cloud_sdk.bash | bash
 
     - run: |
         echo $GCLOUD_SERVICE_KEY | sudo gcloud auth activate-service-account --key-file=-
