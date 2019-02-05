@@ -7,7 +7,9 @@ jobs:
   build:
     docker:
     # specify the version you desire here
-    - image: circleci/openjdk:8-jdk
+   # - image: circleci/openjdk:8-jdk
+    - image: google/cloud-sdk
+
 
     # Specify service dependencies here if necessary
     # CircleCI maintains a library of pre-built images
@@ -31,9 +33,15 @@ jobs:
     #    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - &&
     #    apt-get update -y && apt-get install google-cloud-sdk -y
 
-    - run: |
-        curl https://sdk.cloud.google.com | bash
-        exec -l $SHELL
+    #- run: |
+    #    curl https://sdk.cloud.google.com | bash
+    #    exec -l $SHELL
+
+    - run:
+      name: Installing Java and Maven
+      command: |
+        chmod 744 .circleci/java-install.sh
+        .circleci/java-install.sh
 
     - run: |
         echo $GCLOUD_SERVICE_KEY | sudo gcloud auth activate-service-account --key-file=-
@@ -50,8 +58,6 @@ jobs:
         - v1-dependencies-
 
     - run: mvn dependency:go-offline
-
-
 
     - save_cache:
         paths:
