@@ -22,6 +22,9 @@ jobs:
 
     - checkout
 
+    - setup_remote_docker:
+      docker_layer_caching: true
+
     # Download and cache dependencies
     - restore_cache:
         keys:
@@ -40,6 +43,16 @@ jobs:
 
     - store_artifacts:
         path: target/devops-project-1.0-SNAPSHOT.jar
+
+    - run: |
+      docker login -u $DOCKER_USER -p $DOCKER_PASS
+      docker run -d --name db company/proprietary-db:1.2.3
+
+    # build the application image
+    - run: docker build  -build-args=~/circleci/repo/target/*.jar -t mdgriffin/devops-project:CIRCLE_BUILD_NUM.
+
+    # deploy the image
+    - run: docker push mdgriffin/devops-project:CIRCLE_BUILD_NUM
 
 #    - store_test_results:
 #        path: target/surefire-reports
