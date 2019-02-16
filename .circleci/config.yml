@@ -46,10 +46,10 @@ jobs:
 
     - run: |
       docker login -u $DOCKER_USER -p $DOCKER_PASS
-      docker run -d --name db company/proprietary-db:1.2.3
+      docker run -d --name db mdgriffin/devops-project:CIRCLE_BUILD_NUM
 
     # build the application image
-    - run: docker build  -build-args=~/circleci/repo/target/*.jar -t mdgriffin/devops-project:CIRCLE_BUILD_NUM.
+    - run: docker build  -build-args=~/circleci/repo/target/*.jar -t mdgriffin/devops-project:CIRCLE_BUILD_NUM .
 
     # deploy the image
     - run: docker push mdgriffin/devops-project:CIRCLE_BUILD_NUM
