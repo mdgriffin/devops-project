@@ -44,9 +44,10 @@ jobs:
     - store_artifacts:
         path: target/devops-project-1.0-SNAPSHOT.jar
 
-    - run: |
-      docker login -u $DOCKER_USER -p $DOCKER_PASS
-      docker run -d --name db mdgriffin/devops-project:CIRCLE_BUILD_NUM
+    - run:
+        command: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker run -d --name db mdgriffin/devops-project:CIRCLE_BUILD_NUM
 
     # build the application image
     - run: docker build  -build-args=~/circleci/repo/target/*.jar -t mdgriffin/devops-project:CIRCLE_BUILD_NUM .
