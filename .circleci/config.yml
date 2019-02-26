@@ -61,9 +61,8 @@ jobs:
         command: |
           echo "${GCP_KEY_FILE}" | base64 --decode >> /tmp/gcp_key.json
           gcloud auth activate-service-account --key-file /tmp/gcp_key.json
-          gcloud config set project ${GCP_ACCOUNT_ID}
+          gcloud config set project fyp-kubes
           gcloud config set compute/zone europe-west1-b
-
 
 #    - store_test_results:
 #        path: target/surefire-reports
