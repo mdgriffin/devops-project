@@ -47,15 +47,12 @@ jobs:
     - run: docker build --build-arg JAR_FILE=/target/*.jar -t mdgriffin/devops-project:$CIRCLE_BUILD_NUM .
 
     # deploy the image
-    - run: docker push mdgriffin/devops-project:CIRCLE_BUILD_NUM
-
+    - run: docker push mdgriffin/devops-project:$CIRCLE_BUILD_NUM
 
   deploy:
     docker:
     # specify the version you desire here
     - image: google/cloud-sdk
-
-
 
     steps:
 
