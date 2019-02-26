@@ -106,11 +106,11 @@ jobs:
 #          name: Deploy to Google Cloud Instance
 #          command: ./deploy.sh
 
-#workflows:
-#  version: 2
-#  build-and-deploy:
-#    jobs:
-#      - build
-#      - deploy:
-#          requires:
-#            - build
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
