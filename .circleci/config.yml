@@ -1,7 +1,3 @@
-# Java Maven CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
 version: 2
 jobs:
   build:
@@ -48,10 +44,56 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASS
 
     # build the application image
-    - run: docker build --build-arg JAR_FILE=/target/*.jar -t mdgriffin/devops-project:CIRCLE_BUILD_NUM .
+    - run: docker build --build-arg JAR_FILE=/target/*.jar -t mdgriffin/devops-project:$CIRCLE_BUILD_NUM .
 
     # deploy the image
     - run: docker push mdgriffin/devops-project:CIRCLE_BUILD_NUM
+
+
+  deploy:
+    docker:
+    # specify the version you desire here
+    - image: google/cloud-sdk
+
+
+
+    steps:
+
+    - run: echo "Hello World"
+
+    - run:
+        name: Initialize & Authenticate gcloud SDK
+        command: |
+          echo "${GCP_KEY_FILE}" | base64 --decode >> /tmp/gcp_key.json
+          gcloud auth activate-service-account --key-file /tmp/gcp_key.json
+          gcloud config set project ${GCP_ACCOUNT_ID}
+          gcloud config set compute/zone europe-west1-b
+          # does cluster exist? Create or load credentials
+          if gcloud container clusters describe devops-cluster > /dev/null ;then
+            echo "Our cluster exists, pull credentials into kubectl"
+            gcloud container clusters get-credentials devops-cluster
+          else
+            echo "Creating cluster for first time"
+            gcloud container clusters create devops-cluster --num-nodes=2
+          fi
+          #push image for first run, or update existing.
+          #source /tmp/docker_image
+          echo "Deploying Image
+          if kubectl describe deployment/devops-cluster ;then
+            echo "Updating image on existing deployment"
+            kubectl set image deployment/devops-cluster devops-cluster=eu.gcr.io/fyp-kubes/devops-project:0.0.1
+          else
+            echo "running first deployment"
+            kubectl run devops-cluster --image=eu.gcr.io/fyp-kubes/devops-project:0.0.1 --port 9090
+          fi
+          kubectl rollout status deployment/devops-cluster
+
+          if kubectl get service devops-cluster ;then
+            echo "Service is exposed"
+          else
+            echo "Exposing deployment on Load Balancer"
+            kubectl expose deployment devops-cluster --type=LoadBalancer --port 80 --target-port 9090
+          fi
 
 #    - store_test_results:
 #        path: target/surefire-reports
