@@ -56,10 +56,6 @@ jobs:
 
     steps:
 
-    - run: gcloud --version
-
-    - run: kubectl version
-
     - run:
         name: Initialize & Authenticate gcloud SDK
         command: |
