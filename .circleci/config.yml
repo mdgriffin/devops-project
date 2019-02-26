@@ -56,7 +56,9 @@ jobs:
 
     steps:
 
-    - run: echo "Hello World"
+    - run: gcloud --version
+
+    - run: kubectl version
 
     - run:
         name: Initialize & Authenticate gcloud SDK
@@ -65,46 +67,10 @@ jobs:
           gcloud auth activate-service-account --key-file /tmp/gcp_key.json
           gcloud config set project ${GCP_ACCOUNT_ID}
           gcloud config set compute/zone europe-west1-b
-          # does cluster exist? Create or load credentials
-          if gcloud container clusters describe devops-cluster > /dev/null ;then
-            echo "Our cluster exists, pull credentials into kubectl"
-            gcloud container clusters get-credentials devops-cluster
-          else
-            echo "Creating cluster for first time"
-            gcloud container clusters create devops-cluster --num-nodes=2
-          fi
-          #push image for first run, or update existing.
-          #source /tmp/docker_image
-          echo "Deploying Image
-          if kubectl describe deployment/devops-cluster ;then
-            echo "Updating image on existing deployment"
-            kubectl set image deployment/devops-cluster devops-cluster=eu.gcr.io/fyp-kubes/devops-project:0.0.1
-          else
-            echo "running first deployment"
-            kubectl run devops-cluster --image=eu.gcr.io/fyp-kubes/devops-project:0.0.1 --port 9090
-          fi
-          kubectl rollout status deployment/devops-cluster
 
-          if kubectl get service devops-cluster ;then
-            echo "Service is exposed"
-          else
-            echo "Exposing deployment on Load Balancer"
-            kubectl expose deployment devops-cluster --type=LoadBalancer --port 80 --target-port 9090
-          fi
 
 #    - store_test_results:
 #        path: target/surefire-reports
-
-        #  deploy:
-#    machine:
-#        enabled: true
-#    working_directory: ~/repo
-#    environment:
-#      HEROKU_APP: "sleepy-refuge-55486"
-#    steps:
-#      - run:
-#          name: Deploy to Google Cloud Instance
-#          command: ./deploy.sh
 
 workflows:
   version: 2
