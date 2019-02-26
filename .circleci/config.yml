@@ -61,7 +61,7 @@ jobs:
     - run:
         name: Initialize & Authenticate gcloud SDK
         command: |
-          echo "${GCP_KEY_FILE}" | base64 -i - >> /tmp/gcp_key.json
+          echo "${GCP_KEY_FILE}" | base64 -i -d >> /tmp/gcp_key.json
           gcloud auth activate-service-account --key-file /tmp/gcp_key.json
           gcloud config set project fyp-kubes
           gcloud config set compute/zone europe-west1-b
