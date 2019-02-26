@@ -51,7 +51,7 @@ jobs:
         name: Push Docker image to container registry
         command: |
           docker push mdgriffin/devops-project:$CIRCLE_BUILD_NUM
-          echo "export DOCKER_IMAGE=mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
+          echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
         root: /tmp
@@ -95,7 +95,7 @@ jobs:
             kubectl set image deployment/devops-project devops-project==${DOCKER_IMAGE}
           else
             echo "running first deployment"
-            kubectl run devops-project --image==${DOCKER_IMAGE} --port 8080
+            kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090
           fi
           kubectl rollout status deployment/devops-project
 
@@ -106,9 +106,8 @@ jobs:
             kubectl expose deployment devops-project --type=LoadBalancer --port 80 --target-port 9090
           fi
 
-
         #    - store_test_results:
-#        path: target/surefire-reports
+        #        path: target/surefire-reports
 
 workflows:
   version: 2
