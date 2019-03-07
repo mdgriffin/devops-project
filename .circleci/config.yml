@@ -85,13 +85,13 @@ jobs:
           else
             echo "Creating cluster for first time"
             gcloud container clusters create devops-cluster --num-nodes=1
-          fi
 
-          # Add Docker Login config secret
-          echo creating Docker config secret
-          kubectl create secret generic regcred \
-              --from-file=.dockerconfigjson=/tmp/docker.json \
-              --type=kubernetes.io/dockerconfigjson
+            # Add Docker Login config secret
+            echo "Creating Docker config secret"
+            kubectl create secret generic regcred \
+                --from-file=.dockerconfigjson=/tmp/docker.json \
+                --type=kubernetes.io/dockerconfigjson
+          fi
 
           #push image for first run, or update existing.
           source /tmp/docker_image
