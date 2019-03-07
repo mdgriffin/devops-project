@@ -54,8 +54,8 @@ jobs:
         paths:
         - docker_image
 
-#    - store_test_results:
-#        path: target/surefire-reports
+    - store_test_results:
+        path: target/surefire-reports
 
   deploy:
     docker:
@@ -88,14 +88,12 @@ jobs:
 
             # Add Docker Login config secret
             echo "Creating Docker config secret"
-            #kubectl create secret generic regcred \
-            #    --from-file=.dockerconfigjson=/tmp/docker.json \
-            #    --type=kubernetes.io/dockerconfigjson
             kubectl create secret docker-registry regcred --docker-server=registry.hub.docker.com --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --docker-email=$DOCKER_EMAIL
-          fi
 
-          # Add Docker Creds to service account
-          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
+            # Add Docker Creds to service account
+            echo "Patching Default Service account with Docker Auth Details"
+            kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
+          fi
 
           #push image for first run, or update existing.
           source /tmp/docker_image
