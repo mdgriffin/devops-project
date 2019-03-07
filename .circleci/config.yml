@@ -98,7 +98,7 @@ jobs:
           echo "Deploying Image: ${DOCKER_IMAGE}"
           if kubectl describe deployment/devops-project ;then
             echo "Updating image on existing deployment"
-            kubectl set image deployment/devops-project devops-project==${DOCKER_IMAGE}
+            kubectl set image deployment/devops-project devops-project=${DOCKER_IMAGE}
           else
             echo "running first deployment"
             kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090
