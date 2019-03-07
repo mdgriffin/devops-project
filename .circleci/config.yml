@@ -102,7 +102,7 @@ jobs:
             kubectl set image deployment/devops-project devops-project=${DOCKER_IMAGE}
           else
             echo "running first deployment"
-            kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090
+            kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090 --overrides='{"apiVersion": "v1", "spec": {"imagePullSecrets": [{"name": "regcred"}]}}'
           fi
           kubectl rollout status deployment/devops-project
 
