@@ -40,12 +40,15 @@ public class UserRepositoryTest {
     @Test
     public void whenSavingUser_withValidDetails_userSaves () {
         User user = generateTestUser(UserRole.TRAINEE, TEST_EMAIL);
+
+        int numUsersBeforeSave = userRepository.findAll().size();
+
         userRepository.save(user);
 
         List<User> users = userRepository.findAll();
 
         assertNotNull(users);
-        assertEquals(3, users.size());
+        assertEquals(numUsersBeforeSave + 1, users.size());
     }
 
     @Test
@@ -77,7 +80,7 @@ public class UserRepositoryTest {
 
         List<User> adminUsers = userRepository.getUsersByRole(UserRole.ADMIN.name());
 
-        assertEquals(2, adminUsers.size());
+        assertEquals(3, adminUsers.size());
     }
 
     private static User generateTestUser(UserRole role, String email) {

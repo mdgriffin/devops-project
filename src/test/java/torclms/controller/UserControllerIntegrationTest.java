@@ -27,9 +27,9 @@ public class UserControllerIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
-    private static int NUM_USERS = 2;
+    private static int NUM_USERS = 5;
 
-    private static int NUM_TRAINEES = 1;
+    private static int NUM_TRAINEES = 2;
 
     @Test
     @WithMockUser(username="admin",roles={"ADMIN", "MANAGER", "TRAINEE"})
