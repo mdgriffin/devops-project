@@ -78,11 +78,6 @@ jobs:
           gcloud config set project fyp-kubes
           gcloud config set compute/zone europe-west1-b
 
-          # Add Docker Login config secret
-          kubectl create secret generic regcred \
-              --from-file=.dockerconfigjson=/tmp/docker.json \
-              --type=kubernetes.io/dockerconfigjson
-
           # does cluster exist? Create or load credentials
           if gcloud container clusters describe devops-cluster > /dev/null ;then
             echo "Our cluster exists, pull credentials into kubectl"
@@ -91,6 +86,12 @@ jobs:
             echo "Creating cluster for first time"
             gcloud container clusters create devops-cluster --num-nodes=1
           fi
+
+          # Add Docker Login config secret
+          echo creating Docker config secret
+          kubectl create secret generic regcred \
+              --from-file=.dockerconfigjson=/tmp/docker.json \
+              --type=kubernetes.io/dockerconfigjson
 
           #push image for first run, or update existing.
           source /tmp/docker_image
