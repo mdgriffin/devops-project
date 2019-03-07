@@ -47,7 +47,7 @@ jobs:
         name: Push Docker image to container registry
         command: |
           docker push mdgriffin/devops-project:$CIRCLE_BUILD_NUM
-          echo "export DOCKER_IMAGE=mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
+          echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
         root: /tmp
@@ -72,7 +72,7 @@ jobs:
           echo "${GCP_KEY_FILE}" | base64 -i -d > /tmp/gcp_key.json
 
           # Saving Docker Credentials to file
-          echo "${DOCKER_CREDENTIALS}" | base64 -i -d > /tmp/docker.json
+          #echo "${DOCKER_CREDENTIALS}" | base64 -i -d > /tmp/docker.json
 
           gcloud auth activate-service-account --key-file /tmp/gcp_key.json
           gcloud config set project fyp-kubes
