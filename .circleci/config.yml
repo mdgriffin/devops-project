@@ -65,15 +65,23 @@ jobs:
     - attach_workspace:
         at: /tmp
 
-    - run: echo "${GCP_KEY_FILE}"
-
     - run:
         name: Initialize & Authenticate gcloud SDK
         command: |
+          # Saving Google Cloud Credentials to file
           echo "${GCP_KEY_FILE}" | base64 -i -d > /tmp/gcp_key.json
+
+          # Saving Docker Credentials to file
+          echo "${DOCKER_CREDENTIALS}" | base64 -i -d > /tmp/docker.json
+
           gcloud auth activate-service-account --key-file /tmp/gcp_key.json
           gcloud config set project fyp-kubes
           gcloud config set compute/zone europe-west1-b
+
+          # Add Docker Login config secret
+          kubectl create secret generic regcred \
+              --from-file=.dockerconfigjson=/tmp/docker.json \
+              --type=kubernetes.io/dockerconfigjson
 
           # does cluster exist? Create or load credentials
           if gcloud container clusters describe devops-cluster > /dev/null ;then
