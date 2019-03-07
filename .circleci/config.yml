@@ -4,16 +4,16 @@ orbs:
   sonar: bulderbank/sonar@1.2.1
 
 workflows:
-  version: 2
+#  version: 2
   build-and-deploy:
     jobs:
     - build
-    - sonar/sonar:
+    - sonar/scan:
       requires:
       - build
     - deploy:
         requires:
-        - sonar/sonar
+        - sonar/scn
 
 jobs:
   build:
