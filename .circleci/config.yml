@@ -95,7 +95,7 @@ jobs:
           fi
 
           # Add Docker Creds to service account
-          #kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "myregistrykey"}]}'
+          kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "regcred"}]}'
 
           #push image for first run, or update existing.
           source /tmp/docker_image
@@ -105,7 +105,7 @@ jobs:
             kubectl set image deployment/devops-project devops-project=${DOCKER_IMAGE}
           else
             echo "running first deployment"
-            kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090 --overrides='{"spec": {"imagePullSecrets": [{"name": "regcred"}]}}'
+            kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090
           fi
           kubectl rollout status deployment/devops-project
 
