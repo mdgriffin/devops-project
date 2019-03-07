@@ -94,6 +94,9 @@ jobs:
             kubectl create secret docker-registry regcred --docker-server=registry.hub.docker.com --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --docker-email=$DOCKER_EMAIL
           fi
 
+          # Add Docker Creds to service account
+          #kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "myregistrykey"}]}'
+
           #push image for first run, or update existing.
           source /tmp/docker_image
           echo "Deploying Image: ${DOCKER_IMAGE}"
@@ -102,7 +105,7 @@ jobs:
             kubectl set image deployment/devops-project devops-project=${DOCKER_IMAGE}
           else
             echo "running first deployment"
-            kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090 --overrides='{"apiVersion": "v1", "spec": {"imagePullSecrets": [{"name": "regcred"}]}}'
+            kubectl run devops-project --image=${DOCKER_IMAGE} --port 9090 --overrides='{"spec": {"imagePullSecrets": [{"name": "regcred"}]}}'
           fi
           kubectl rollout status deployment/devops-project
 
