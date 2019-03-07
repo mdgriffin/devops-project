@@ -12,10 +12,6 @@ jobs:
       MAVEN_OPTS: -Xmx3200m
 
     steps:
-    #    - add_ssh_keys:
-    #        fingerprints:
-    #        - "b7:45:74:68:9e:45:aa:c5:20:e2:34:4d:42:8d:26:74"
-
     - checkout
 
     - setup_remote_docker
@@ -58,13 +54,14 @@ jobs:
         paths:
         - docker_image
 
+#    - store_test_results:
+#        path: target/surefire-reports
+
   deploy:
     docker:
-    # specify the version you desire here
     - image: google/cloud-sdk
 
     steps:
-
     - attach_workspace:
         at: /tmp
 
@@ -105,9 +102,6 @@ jobs:
             echo "Exposing deployment on Load Balancer"
             kubectl expose deployment devops-project --type=LoadBalancer --port 80 --target-port 9090
           fi
-
-        #    - store_test_results:
-        #        path: target/surefire-reports
 
 workflows:
   version: 2
