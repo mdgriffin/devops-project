@@ -47,7 +47,7 @@ jobs:
         name: Push Docker image to container registry
         command: |
           docker push mdgriffin/devops-project:$CIRCLE_BUILD_NUM
-          echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
+          echo "export DOCKER_IMAGE=mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
         root: /tmp
@@ -88,9 +88,10 @@ jobs:
 
             # Add Docker Login config secret
             echo "Creating Docker config secret"
-            kubectl create secret generic regcred \
-                --from-file=.dockerconfigjson=/tmp/docker.json \
-                --type=kubernetes.io/dockerconfigjson
+            #kubectl create secret generic regcred \
+            #    --from-file=.dockerconfigjson=/tmp/docker.json \
+            #    --type=kubernetes.io/dockerconfigjson
+            kubectl create secret docker-registry regcred --docker-server=registry.hub.docker.com --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASS --docker-email=$DOCKER_EMAIL
           fi
 
           #push image for first run, or update existing.
