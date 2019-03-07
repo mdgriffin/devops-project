@@ -9,9 +9,11 @@ workflows:
     jobs:
     - build
     - sonar/sonar
+      requires:
+      - build
     - deploy:
         requires:
-        - build
+        - sonar/sonar
 
 jobs:
   build:
