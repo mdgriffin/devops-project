@@ -12,8 +12,8 @@ workflows:
       requires:
       - build
     - deploy:
-        requires:
-        - sonar/scn
+      requires:
+      - sonar/scan
 
 jobs:
   build:
