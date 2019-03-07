@@ -8,7 +8,7 @@ workflows:
   build-and-deploy:
     jobs:
     - build
-    - bulderbank/sonar
+    - sonar/sonar
     - deploy:
         requires:
         - build
