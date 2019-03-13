@@ -69,7 +69,7 @@ jobs:
     - persist_to_workspace:
         root: target
         paths:
-        - *
+        - classes/torclms/**
 
     - persist_to_workspace:
         root: /tmp
