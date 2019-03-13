@@ -1,19 +1,20 @@
 version: 2.1
 
-orbs:
-  sonar: bulderbank/sonar@1.2.1
+#orbs:
+#  sonar: bulderbank/sonar@1.2.1
 
 workflows:
   version: 2
   build-and-deploy:
     jobs:
     - build
-    - sonar/scan:
+    - sonar-scan
+#    - sonar/scan:
         requires:
         - build
-    - deploy:
-        requires:
-        - build
+#    - deploy:
+#        requires:
+#        - build
 
 jobs:
   build:
@@ -72,6 +73,18 @@ jobs:
 
     - store_test_results:
         path: target/surefire-reports
+
+  sonar-scan:
+    docker:
+    - image: newtmitch/sonar-scanner
+
+    steps:
+
+    - run:
+        name: Testing Sonar Cloud Version
+        command: |
+          sonar-scanner --version
+
 
   deploy:
     docker:
