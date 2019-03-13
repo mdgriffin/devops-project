@@ -73,7 +73,7 @@ jobs:
     - persist_to_workspace:
         root: /compiled
         paths:
-        - /target/*
+        - target/*
 
     - persist_to_workspace:
         root: /tmp
@@ -101,7 +101,7 @@ jobs:
     - run:
         name: Test Files
         command: |
-          ls
+          ls /compiled
 
 #    - run:
 #        name: Check If Maven is Installed
