@@ -7,7 +7,7 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-    - build
+#    - build
     - sonar-scan
 #    - sonar/scan:
 #        requires:
@@ -85,6 +85,11 @@ jobs:
         command: |
           sonar-scanner --version
 
+
+    - run:
+        name: Check If Maven is Installed
+        command: |
+          mvn --version
 
   deploy:
     docker:
