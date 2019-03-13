@@ -8,14 +8,10 @@ workflows:
   build-and-deploy:
     jobs:
     - build
-    - sonar:
-      steps:
-        - scan
-      requires:
-      - build
+    - sonar
     - deploy:
-      requires:
-      - build
+        requires:
+        - build
 
 jobs:
   build:
