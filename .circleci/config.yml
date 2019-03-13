@@ -89,7 +89,7 @@ jobs:
     - run:
         name: Test Checkout
         command: |
-          echo ls
+          ls
 
 
 #    - run:
