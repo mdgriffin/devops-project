@@ -8,9 +8,9 @@ workflows:
   build-and-deploy:
     jobs:
     - build
-    - sonar-scan
-      requires:
-      - build
+    - sonar-scan:
+        requires:
+        - build
 #    - sonar/scan:
 #        requires:
 #        - build
