@@ -49,8 +49,12 @@ jobs:
 
     - run: mvn integration-test
 
+#    - store_artifacts:
+#        path: /target/devops-project-1.0-SNAPSHOT.jar
+
     - store_artifacts:
-        path: /target/devops-project-1.0-SNAPSHOT.jar
+        path: /target/*
+        destination: compiled
 
     - run:
         command: |
@@ -67,6 +71,11 @@ jobs:
           echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
+        root: /compiled
+        paths:
+        - /target/*
+
+    - persist_to_workspace:
         root: /tmp
         paths:
         - docker_image
@@ -79,7 +88,10 @@ jobs:
     - image: newtmitch/sonar-scanner
 
     steps:
-    - checkout
+#    - checkout
+
+    - attach_workspace:
+        at: /compiled
 
     - run:
         name: Testing Sonar Cloud Version
@@ -87,10 +99,9 @@ jobs:
           sonar-scanner --version
 
     - run:
-        name: Test Checkout
+        name: Test Files
         command: |
           ls
-
 
 #    - run:
 #        name: Check If Maven is Installed
