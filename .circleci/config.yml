@@ -52,10 +52,6 @@ jobs:
 #    - store_artifacts:
 #        path: /target/devops-project-1.0-SNAPSHOT.jar
 
-    - store_artifacts:
-        path: /target/*
-        destination: compiled
-
     - run:
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -71,9 +67,9 @@ jobs:
           echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
-        root: /compiled
+        root: target
         paths:
-        - target/*
+        - *
 
     - persist_to_workspace:
         root: /tmp
@@ -91,7 +87,7 @@ jobs:
 #    - checkout
 
     - attach_workspace:
-        at: /compiled
+        at: /target
 
     - run:
         name: Testing Sonar Cloud Version
@@ -101,7 +97,7 @@ jobs:
     - run:
         name: Test Files
         command: |
-          ls /compiled
+          ls /target
 
 #    - run:
 #        name: Check If Maven is Installed
