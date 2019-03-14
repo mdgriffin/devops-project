@@ -100,7 +100,7 @@ jobs:
     - run:
         name: Test Files
         command: |
-          ls -R /target/classes
+          ls
 
     - run:
         name: Run Sonar Scanner
