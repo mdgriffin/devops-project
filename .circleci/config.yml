@@ -90,7 +90,7 @@ jobs:
 #    - checkout
 
     - attach_workspace:
-        at: /target
+        at: /tmp/workspace
 
     - run:
         name: Testing Sonar Cloud Version
@@ -100,7 +100,7 @@ jobs:
     - run:
         name: Test Files
         command: |
-          ls /
+          ls /tmp/workspace/**
 
 #    - run:
 #        name: Run Sonar Scanner
