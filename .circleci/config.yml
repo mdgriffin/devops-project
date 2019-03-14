@@ -69,7 +69,7 @@ jobs:
           echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
-        root: /repo
+        root: ~/repo
         paths:
         - target/classes/torclms/**
         - src/**
