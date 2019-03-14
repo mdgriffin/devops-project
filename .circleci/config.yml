@@ -69,9 +69,10 @@ jobs:
           echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
-        root: target
+        root: ./
         paths:
-        - classes/torclms/**
+        - target/classes/torclms/**
+        - src/**
 
     - persist_to_workspace:
         root: /tmp
@@ -108,9 +109,9 @@ jobs:
           -Dsonar.organization=${CIRCLE_PROJECT_USERNAME} \
           -Dsonar.projectKey=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME} \
           -Dsonar.projectName="${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}" \
-          -Dsonar.projectBaseDir=/target/classes \
-          -Dsonar.sources=. \
-          -Dsonar.sonar.java.binaries=. \
+          -Dsonar.projectBaseDir=/ \
+          -Dsonar.sources=/src \
+          -Dsonar.sonar.java.binaries=/target/classes \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${SONARQUBE_TOKEN} ${SONAR_SCANNER_OPTS_CUSTOM}
 
