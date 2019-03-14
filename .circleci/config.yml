@@ -99,7 +99,7 @@ jobs:
     - run:
         name: Test Files
         command: |
-          ls /target
+          ls -R /target/classes
 
     - run:
         name: Check If Maven is Installed
