@@ -69,10 +69,15 @@ jobs:
           echo "export DOCKER_IMAGE=registry.hub.docker.com/mdgriffin/devops-project:${CIRCLE_BUILD_NUM}" > /tmp/docker_image
 
     - persist_to_workspace:
-        root: ./
+        root: target/
         paths:
-        - target/classes/torclms/**
+        - classes/torclms/**
         - src/**
+
+    - persist_to_workspace:
+        root: src
+        paths:
+        - /**
 
     - persist_to_workspace:
         root: /tmp
@@ -102,18 +107,18 @@ jobs:
         command: |
           ls
 
-    - run:
-        name: Run Sonar Scanner
-        command: |
-          sonar-scanner \
-          -Dsonar.organization=${CIRCLE_PROJECT_USERNAME} \
-          -Dsonar.projectKey=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME} \
-          -Dsonar.projectName="${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}" \
-          -Dsonar.projectBaseDir=/ \
-          -Dsonar.sources=/src \
-          -Dsonar.sonar.java.binaries=/target/classes \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=${SONARQUBE_TOKEN} ${SONAR_SCANNER_OPTS_CUSTOM}
+#    - run:
+#        name: Run Sonar Scanner
+#        command: |
+#          sonar-scanner \
+#          -Dsonar.organization=${CIRCLE_PROJECT_USERNAME} \
+#          -Dsonar.projectKey=${CIRCLE_PROJECT_USERNAME}_${CIRCLE_PROJECT_REPONAME} \
+#          -Dsonar.projectName="${CIRCLE_PROJECT_USERNAME} ${CIRCLE_PROJECT_REPONAME}" \
+#          -Dsonar.projectBaseDir=/ \
+#          -Dsonar.sources=. \
+#          -Dsonar.sonar.java.binaries=/target/classes \
+#          -Dsonar.host.url=https://sonarcloud.io \
+#          -Dsonar.login=${SONARQUBE_TOKEN} ${SONAR_SCANNER_OPTS_CUSTOM}
 
   deploy:
     docker:
