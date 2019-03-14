@@ -86,14 +86,13 @@ jobs:
     docker:
     - image: newtmitch/sonar-scanner
 
+    working_directory: /tmp/workspace
+
     steps:
 #    - checkout
 
     - attach_workspace:
         at: /tmp/workspace
-
-    working_directory: /tmp/workspace
-
     - run:
         name: Testing Sonar Cloud Version
         command: |
