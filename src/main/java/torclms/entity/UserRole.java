@@ -15,10 +15,6 @@ public enum UserRole {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
     public static boolean contains(String test) {
 
         for (UserRole role : UserRole.values()) {
