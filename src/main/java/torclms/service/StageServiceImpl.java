@@ -23,10 +23,15 @@ public class StageServiceImpl implements  StageService {
 
     @Override
     public Stage getLastStage(Set<Stage> stages) {
-        return stages
+        Optional<Stage> stg = stages
             .stream()
-            .reduce((a, b) -> a.getStepOrder() > b.getStepOrder()? a : b)
-            .get();
+            .reduce((a, b) -> a.getStepOrder() > b.getStepOrder()? a : b);
+
+        if (stg.isPresent()) {
+            return stg.get();
+        }
+
+        return null;
     }
 
     @Override

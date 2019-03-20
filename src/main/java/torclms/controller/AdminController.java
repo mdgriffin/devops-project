@@ -124,7 +124,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("user", user);
         } else {
-            if (user.getPassword().length() > 0 && dbUser.getPassword() != user.getPassword()) {
+            if (user.getPassword().length() > 0 && !dbUser.getPassword().equals(user.getPassword())) {
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             }
 

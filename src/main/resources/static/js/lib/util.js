@@ -17,9 +17,6 @@ var Util = (function () {
         clone: function (obj) {
             return JSON.parse(JSON.stringify(obj));
         },
-        escapeRegExp: function (text) {
-            return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-        },
         setCourseUid: function (course) {
             let self = this;
             course.stages.forEach(stage => {
