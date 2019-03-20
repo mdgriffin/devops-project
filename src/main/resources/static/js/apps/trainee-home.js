@@ -133,7 +133,7 @@ var TraineeHomeApp = (function () {
             }).catch(error => {
                 console.error('Error', error);
                 self.assignmentsLoading = false;
-                alert("An error has occurred, please try again");
+                //alert("An error has occurred, please try again");
             })
         }
     };

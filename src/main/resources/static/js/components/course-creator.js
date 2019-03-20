@@ -321,13 +321,13 @@
                             if (!self.isUpdate) {
                                 self.clearForm();
                             }
-                            alert('Course ' + (self.isUpdate? 'Updated' : 'Saved') + ' Successfully');
+                            //alert('Course ' + (self.isUpdate? 'Updated' : 'Saved') + ' Successfully');
                         } else {
                             throw Error(response.statusText);
                         }
                     }).catch(error => {
                         console.error(error);
-                        alert("An error has occurred, please try again");
+                        //alert("An error has occurred, please try again");
                     });
                 }
             },

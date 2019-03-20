@@ -31,7 +31,7 @@ var UserManagerApp = (function () {
         },
         methods: {
             disableUser: function (userId) {
-                alert("Disabling user...")
+                //alert("Disabling user...")
             }
         },
         computed: {

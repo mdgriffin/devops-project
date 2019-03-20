@@ -94,7 +94,7 @@ const AdminHome = (function () {
                 .catch(err => {
                     console.error(err);
                     this.usersLoading = false;
-                    alert('An error has occurred, please reload and try again');
+                    //alert('An error has occurred, please reload and try again');
                 })
 
             this.$store.dispatch('retrieveCourses')
@@ -104,7 +104,7 @@ const AdminHome = (function () {
                 .catch(err => {
                     console.error(err);
                     this.coursesLoading = false;
-                    alert('An error has occurred, please reload and try again');
+                    //alert('An error has occurred, please reload and try again');
                 })
         },
         store: store

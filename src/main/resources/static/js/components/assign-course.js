@@ -96,7 +96,7 @@ var AssignCourse = (function () {
                         body: JSON.stringify({'userId': self.selectedUser.userId, 'courseId': self.selectedCourse.courseId})
                     }).then(response => {
                         if (response.ok) {
-                            alert("Course Assigned Successfully");
+                            //alert("Course Assigned Successfully");
                             return response.json();
                         } else {
                             throw Error(response.statusText);
@@ -116,7 +116,7 @@ var AssignCourse = (function () {
                         }
                     }).catch(error => {
                         console.error(error);
-                        alert("An error has occurred, please try again");
+                        //alert("An error has occurred, please try again");
                     });
                 }
             }

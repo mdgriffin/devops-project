@@ -55,7 +55,7 @@ var AssignmentApp = (function () {
             })
             .catch(error => {
                 console.error(error);
-                alert("An error has occurred, please try again");
+                //alert("An error has occurred, please try again");
             })
         }
     }

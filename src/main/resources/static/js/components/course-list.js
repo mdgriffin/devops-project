@@ -45,7 +45,7 @@ var CourseList = (function () {
                     }
                 }).then(response => {
                     if (response.ok) {
-                        alert("Course Deleted Successfully");
+                        //alert("Course Deleted Successfully");
 
                         self.courseList = self.courseList.filter(course => {
                             return course.courseId != courseId;
@@ -55,7 +55,7 @@ var CourseList = (function () {
                     }
                 }).catch(error => {
                     console.error(error);
-                    alert("An error has occurred, please try again");
+                    //alert("An error has occurred, please try again");
                 });
             }
         }

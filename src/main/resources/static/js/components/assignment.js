@@ -316,7 +316,7 @@ var Assignment = (function () {
                 }
 
                 if (!el.canLeave()) {
-                    alert("You can only change stage while the video is playing");
+                    //alert("You can only change stage while the video is playing");
                 }
             },
             stageIsComplete: function (stageIndex) {
@@ -378,7 +378,7 @@ var Assignment = (function () {
                     Vue.set(self.assignment, 'stageAttempts', assignment.stageAttempts);
                 }).catch(error => {
                     console.error(error);
-                    alert("An error has occured, please try again");
+                    //alert("An error has occured, please try again");
                 });
             }
         }
