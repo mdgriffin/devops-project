@@ -5,9 +5,9 @@ workflows:
   build-and-deploy:
     jobs:
     - build
-    - sonar-scan:
-        requires:
-        - build
+#    - sonar-scan:
+#        requires:
+#        - build
     - deploy:
         requires:
         - build
@@ -127,6 +127,13 @@ jobs:
     steps:
     - attach_workspace:
         at: /tmp
+
+    - run:
+        name: Installing Helm
+        command: |
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh
+          chmod 700 get_helm.sh
+          ./get_helm.sh
 
     - run:
         name: Initialize & Authenticate gcloud SDK
