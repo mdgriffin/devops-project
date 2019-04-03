@@ -186,12 +186,14 @@ jobs:
 
           echo "Creating Service Account for Tiller"
           # add a service account within a namespace to segregate tiller
-          kubectl create serviceaccount --namespace kube-system tiller
+          if ! kubectl get serviceaccount/tiller --namespace kube-system  > /dev/null ;then
+            kubectl create serviceaccount --namespace kube-system tiller
 
-          # create a cluster role binding for tiller
-          kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+            # create a cluster role binding for tiller
+            kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
-          #kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+            #kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+          fi
 
           # verify that helm is installed in the cluster
           # kubectl get deploy,svc tiller-deploy -n kube-system
