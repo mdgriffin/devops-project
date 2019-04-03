@@ -1,8 +1,5 @@
 version: 2.1
 
-#orbs:
-#  sonar: bulderbank/sonar@1.2.1
-
 workflows:
   version: 2
   build-and-deploy:
@@ -11,12 +8,9 @@ workflows:
     - sonar-scan:
         requires:
         - build
-#    - sonar/scan:
-#        requires:
-#        - build
-#    - deploy:
-#        requires:
-#        - build
+    - deploy:
+        requires:
+        - build
 
 jobs:
   build:
@@ -182,3 +176,29 @@ jobs:
             echo "Exposing deployment on Load Balancer"
             kubectl expose deployment devops-project --type=LoadBalancer --port 80 --target-port 9090
           fi
+
+          echo "Creating Service Account for Tiller"
+          # add a service account within a namespace to segregate tiller
+          kubectl create serviceaccount --namespace kube-system tiller
+
+          # create a cluster role binding for tiller
+          kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+          #kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
+
+          # verify that helm is installed in the cluster
+          # kubectl get deploy,svc tiller-deploy -n kube-system
+
+          # initialized helm within the tiller service account
+          helm init --service-account tiller --upgrade --wait
+
+           # Update Helm Repo
+          helm repo update
+
+          echo "Installing Prometheus"
+          # Install Prometheus to cluster
+          helm install stable/prometheus --version 8.9.0 --name fyp-prometheus
+
+          echo "Installing Grafana"
+          # Install Grafana to cluster
+          helm install stable/grafana --version 2.2.5 --name fyp-grafana
