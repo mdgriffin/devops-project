@@ -215,7 +215,7 @@ jobs:
           then
             echo "Prometheus Is Already Installed"
           else
-            helm install stable/prometheus --version 8.9.0 --name devops-prometheus
+            helm install stable/prometheus --version 8.9.0 --name devops-prometheus -f /tmp/config/prometheus-values.yml
           fi
 
           echo "Installing Grafana"
@@ -229,6 +229,3 @@ jobs:
 
           echo "Getting Grafana Admin Password"
           kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-
-          echo "Modifying Prometheus Configuration to scrape from DevOps Application"
-          kubectl create configmap devops-prometheus-server --from-file=/tmp/config/prometheus.yml -o yaml --dry-run | kubectl apply -f -
