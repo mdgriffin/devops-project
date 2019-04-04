@@ -133,13 +133,14 @@ jobs:
     - attach_workspace:
         at: /tmp
 
-    - attach_workspace:
-        at: /tmp/workspace
+# TODO: See if initial attaches workspace already attached needed files
+#    - attach_workspace:
+#        at: /tmp/workspace
 
     - run:
         name: Checking Files
         command: |
-          ls -R /tmp/workspace
+          ls -R /tmp
 
     - run:
         name: Installing Helm
@@ -219,11 +220,21 @@ jobs:
 
           echo "Installing Prometheus"
           # Install Prometheus to cluster
-          helm install stable/prometheus --version 8.9.0 --name devops-prometheus
+          if [[ $(helm ls --deployed devops-prometheus | wc -c) -ne 0 ]]
+          then
+            echo "Prometheus Is Already Installed"
+          else
+            helm install stable/prometheus --version 8.9.0 --name devops-prometheus
+          fi
 
           echo "Installing Grafana"
           # Install Grafana to cluster
-          helm install stable/grafana --version 2.2.5 --name devops-grafana
+          if [[ $(helm ls --deployed devops-prometheus | wc -c) -ne 0 ]]
+          then
+            echo "Grafana Is Already Installed"
+          else
+            helm install stable/grafana --version 2.2.5 --name devops-grafana
+          fi
 
           echo "Getting Grafana Admin Password"
           kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
