@@ -154,7 +154,7 @@ jobs:
             gcloud container clusters get-credentials devops-cluster
           else
             echo "Creating cluster for first time"
-            gcloud container clusters create devops-cluster --num-nodes=1
+            gcloud container clusters create devops-cluster --num-nodes=3
 
             # Add Docker Login config secret
             echo "Creating Docker config secret"
@@ -206,8 +206,16 @@ jobs:
 
           echo "Installing Prometheus"
           # Install Prometheus to cluster
-          helm install stable/prometheus --version 8.9.0 --name fyp-prometheus
+          helm install stable/prometheus --version 8.9.0 --name devops-prometheus
 
           echo "Installing Grafana"
           # Install Grafana to cluster
-          helm install stable/grafana --version 2.2.5 --name fyp-grafana
+          helm install stable/grafana --version 2.2.5 --name devops-grafana
+
+          echo "Getting Grafana Admin Password"
+          kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+          # To-Do Dynamically add a scrape config
+          # https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+          #kubectl create configmap some-config --from-file=some-key=some-config.yaml -n some-namaespace -o yaml --dry-run | kubectl apply -f -
+          #kubectl patch configmap/devops-prometheus-server --type merge -p '{"prometheus.yml":{"upstreamNameservers":"[\"1.1.1.1\", \"1.0.0.1\"]"}}'
