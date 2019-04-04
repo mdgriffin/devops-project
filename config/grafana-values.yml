@@ -6,3 +6,14 @@ datasources:
     url: http://devops-prometheus-server:80
     access: server
     isDefault: true
+
+dashboards:
+  default:
+    prometheus-stats:
+      gnetId: 2
+      revision: 2
+      datasource: Prometheus
+    spring-stats:
+      gnetId: 6756
+      revision: 2
+      datasource: Prometheus
