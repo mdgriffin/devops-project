@@ -69,6 +69,11 @@ jobs:
         - src/**
 
     - persist_to_workspace:
+        root: ~/repo
+        paths:
+        - config
+
+    - persist_to_workspace:
         root: /tmp
         paths:
         - docker_image
@@ -127,6 +132,14 @@ jobs:
     steps:
     - attach_workspace:
         at: /tmp
+
+    - attach_workspace:
+        at: /tmp/workspace
+
+    - run:
+        name: Checking Files
+        command: |
+          ls -R /tmp/workspace
 
     - run:
         name: Installing Helm
