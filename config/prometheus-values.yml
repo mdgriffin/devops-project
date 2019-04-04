@@ -1,0 +1,7 @@
+extraScrapeConfigs: |
+  - job_name: 'spring-actuator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+    - targets:
+      - devops-project.default.svc.cluster.local
