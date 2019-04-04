@@ -5,3 +5,23 @@ extraScrapeConfigs: |
     static_configs:
     - targets:
       - devops-project.default.svc.cluster.local
+
+alertmanagerFiles:
+  alertmanager.yml:
+    #global: {}
+    # slack_api_url: ''
+
+    receivers:
+    # https://prometheus.io/docs/alerting/configuration/#slack_config
+    - name: 'slack-alert'
+      slack_configs:
+        - channel: "#kubernetes-cluster"
+          api_url:  https://hooks.slack.com/services/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
+          #xoxp-562375463140-561671089568-601020460692-6443da2ed26090ae0acfae11fc1f9f91
+          #username: <to-do>
+
+#    route:
+#      group_wait: 10s
+#      group_interval: 5m
+#      receiver: default-receiver
+#      repeat_interval: 3h
