@@ -220,7 +220,7 @@ jobs:
 
           echo "Installing Grafana"
           # Install Grafana to cluster
-          if [[ $(helm ls --deployed devops-prometheus | wc -c) -ne 0 ]]
+          if [[ $(helm ls --deployed devops-grafana | wc -c) -ne 0 ]]
           then
             echo "Grafana Is Already Installed"
           else
