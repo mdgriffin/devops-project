@@ -1,0 +1,8 @@
+datasources:
+  apiVersion: 1
+  datasources:
+  - name: Prometheus
+    type: prometheus
+    url: http://devops-prometheus-server:80
+    access: server
+    isDefault: true

@@ -224,7 +224,7 @@ jobs:
           then
             echo "Grafana Is Already Installed"
           else
-            helm install stable/grafana --version 2.2.5 --name devops-grafana
+            helm install stable/grafana --version 2.2.5 --name devops-grafana -f /tmp/config/grafana-values.yml
           fi
 
           echo "Getting Grafana Admin Password"
@@ -232,8 +232,3 @@ jobs:
 
           echo "Modifying Prometheus Configuration to scrape from DevOps Application"
           kubectl create configmap devops-prometheus-server --from-file=/tmp/config/prometheus.yml -o yaml --dry-run | kubectl apply -f -
-
-          #POST /api/datasources HTTP/1.1
-          kubectl port-forward --namespace default svc/devops-grafana 7070:80 &
-
-          curl -d '{"name":"prometheus_datasource", "type":"prometheus", "url":"http://devops-prometheus-server:80", "access":"server", "basicAuth":false}' -H "Content-Type: application/json" -X POST http://localhost:7070/api/datasources
