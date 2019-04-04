@@ -67,10 +67,6 @@ jobs:
         paths:
         - target/classes/torclms/**
         - src/**
-
-    - persist_to_workspace:
-        root: ~/repo
-        paths:
         - config
 
     - persist_to_workspace:
@@ -88,7 +84,6 @@ jobs:
     working_directory: /tmp/workspace
 
     steps:
-#    - checkout
 
     - attach_workspace:
         at: /tmp/workspace
@@ -132,10 +127,6 @@ jobs:
     steps:
     - attach_workspace:
         at: /tmp
-
-# TODO: See if initial attaches workspace already attached needed files
-#    - attach_workspace:
-#        at: /tmp/workspace
 
     - run:
         name: Checking Files
@@ -239,7 +230,10 @@ jobs:
           echo "Getting Grafana Admin Password"
           kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
-          # To-Do Dynamically add a scrape config
+          # TODO: Dynamically add a scrape config
           # https://prometheus.io/docs/prometheus/latest/configuration/configuration/
           #kubectl create configmap some-config --from-file=some-key=some-config.yaml -n some-namaespace -o yaml --dry-run | kubectl apply -f -
+
           #kubectl patch configmap/devops-prometheus-server --type merge -p '{"prometheus.yml":{"upstreamNameservers":"[\"1.1.1.1\", \"1.0.0.1\"]"}}'
+          echo "Modifying Prometheus Configuration to scrape from DevOps Application"
+          kubectl create configmap devops-prometheus-server --from-file=/tmp/config/prometheus.yml -o yaml --dry-run | kubectl apply -f -
