@@ -22,18 +22,7 @@ alertmanagerFiles:
       group_wait: 10s
       group_interval: 5m
       receiver: slack_alert
-      repeat_interval: 3h
-
-
-#route:
-#  group_by: [cluster]
-#  # If an alert isn't caught by a route, send it slack.
-#  receiver: slack_alert
-#  routes:
-#  # Send severity=slack alerts to slack.
-#  - match:
-#      severity: slack
-#    receiver: slack_alert
+      repeat_interval: 2m
 
 serverFiles:
   alerts:
@@ -55,8 +44,9 @@ serverFiles:
           annotations:
             summary: 'JVM GC Pause Seconds Greater Than 100'
         - alert: DevOpsRequests
-          expr: http_server_requests_seconds_count > 3
+          expr: sum(login_controller_login_counter_total) % 10 == 0
           labels:
             severity: page
           annotations:
-            summary: 'Greater than 3 requests to service'
+            description: 'There has been 10 requests to the login page'
+            summary: '10 Requests to login page'
