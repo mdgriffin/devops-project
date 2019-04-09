@@ -6,22 +6,51 @@ extraScrapeConfigs: |
     - targets:
       - devops-project.default.svc.cluster.local
 
-#alertmanagerFiles:
-#  alertmanager.yml:
-    #global: {}
-    # slack_api_url: ''
+alertmanagerFiles:
+  alertmanager.yml:
+    global:
+      slack_api_url: https://hooks.slack.com/services/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
 
-#    receivers:
+    receivers:
     # https://prometheus.io/docs/alerting/configuration/#slack_config
-#    - name: 'slack-alert'
-#      slack_configs:
-#      - channel: "#kubernetes-cluster"
-#        api_url: https://hooks.slack.com/services/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
-        #xoxp-562375463140-561671089568-601020460692-6443da2ed26090ae0acfae11fc1f9f91
-        #username: <to-do>
+    - name: slack_alert
+      slack_configs:
+      - channel: "#kubernetes-cluster"
+        #api_url: https://hooks.slack.com/services/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
 
-#    route:
-#      group_wait: 10s
-#      group_interval: 5m
-#      receiver: default-receiver
-#      repeat_interval: 3h
+    route:
+      group_wait: 10s
+      group_interval: 5m
+      receiver: slack_alert
+      repeat_interval: 3h
+
+
+#route:
+#  group_by: [cluster]
+#  # If an alert isn't caught by a route, send it slack.
+#  receiver: slack_alert
+#  routes:
+#  # Send severity=slack alerts to slack.
+#  - match:
+#      severity: slack
+#    receiver: slack_alert
+
+serverFiles:
+  alerts:
+    groups:
+    - name: Instances
+      rules:
+        - alert: InstanceDown
+          expr: up == 0
+          for: 5m
+          labels:
+            severity: page
+          annotations:
+            description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.'
+            summary: 'Instance {{ $labels.instance }} down'
+        - alert: HighGCPause
+          expr: jvm_gc_pause_seconds_count > 100
+          labels:
+            severity: page
+          annotations:
+            summary: 'JVM GC Pause Seconds Greater Than 100'
