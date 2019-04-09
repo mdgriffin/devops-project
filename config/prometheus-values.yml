@@ -54,3 +54,9 @@ serverFiles:
             severity: page
           annotations:
             summary: 'JVM GC Pause Seconds Greater Than 100'
+        - alert: DevOpsRequests
+          expr: http_server_requests_seconds_count > 3
+          labels:
+            severity: page
+          annotations:
+            summary: 'Greater than 3 requests to service'
