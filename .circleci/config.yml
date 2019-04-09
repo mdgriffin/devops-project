@@ -5,12 +5,12 @@ workflows:
   build-and-deploy:
     jobs:
     - build
-    - sonar-scan:
-        requires:
-        - build
-#    - deploy:
+#    - sonar-scan:
 #        requires:
 #        - build
+    - deploy:
+        requires:
+        - build
 
 jobs:
   build:
