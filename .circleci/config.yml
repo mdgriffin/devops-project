@@ -250,3 +250,6 @@ jobs:
 
           echo "Getting Grafana Admin Password"
           kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+
+          curl -d '{"text":"Hello world from CircleCI Build!"}' -H "Content-Type: application/json" -X POST $SLACK_WEB_HOOK
