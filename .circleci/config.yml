@@ -259,7 +259,8 @@ jobs:
 
           # kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; pipe_slack_message
 
-          echo "Hello World from CirclCI Build!" | pipe_slack_message
+          #echo "Hello World from CirclCI Build!" | pipe_slack_message
+          send_slack_message "Hello World from CirclCI Build!"
 
           # Getting the IP address of service
-          kubectl get svc devops-project  -o jsonpath='{.status.loadBalancer.ingress[0].ip}' | pipe_slack_message
+          send_slack_messag"$(kubectl get svc devops-project  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
