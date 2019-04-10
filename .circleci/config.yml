@@ -43,7 +43,7 @@ jobs:
         - ~/.m2
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
-    - run: mvn integration-test verify
+    - run: mvn surefire:test failsafe:integration-test failsafe:verify
 
 #    - store_artifacts:
 #        path: /target/devops-project-1.0-SNAPSHOT.jar
