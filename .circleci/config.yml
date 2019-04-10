@@ -68,7 +68,6 @@ jobs:
         - target/classes/torclms/**
         - src/**
         - config
-        - .circleci
 
     - persist_to_workspace:
         root: /tmp
@@ -136,9 +135,14 @@ jobs:
           ls -R /tmp
 
     - run:
+        name: Checking Other Files
+        command: |
+          ls ./
+
+    - run:
         name: Loading Custom Functions
         command: |
-          source /tmp/.circleci/functions.sh
+          source ./.circleci/functions.sh
 
     - run:
         name: Installing Helm
@@ -261,6 +265,7 @@ jobs:
 
           #echo "Hello World from CirclCI Build!" | pipe_slack_message
           send_slack_message "Hello World from CirclCI Build!"
+          #curl -d "{"text":"Hello World from CircleCI Build"}" -H "Content-Type: application/json" -X POST $SLACK_WEB_HOOK
 
           # Getting the IP address of service
           send_slack_messag"$(kubectl get svc devops-project  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
