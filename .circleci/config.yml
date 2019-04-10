@@ -135,6 +135,11 @@ jobs:
           ls -R /tmp
 
     - run:
+        name: Loading Custom Functions
+        command: |
+          source functions.sh
+
+    - run:
         name: Installing Helm
         command: |
           curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh
