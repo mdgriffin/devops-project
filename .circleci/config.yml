@@ -68,6 +68,7 @@ jobs:
         - target/classes/torclms/**
         - src/**
         - config
+        - .circleci
 
     - persist_to_workspace:
         root: /tmp
@@ -137,7 +138,7 @@ jobs:
     - run:
         name: Loading Custom Functions
         command: |
-          source functions.sh
+          source /tmp/.circleci/functions.sh
 
     - run:
         name: Installing Helm
