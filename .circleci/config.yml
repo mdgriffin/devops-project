@@ -252,10 +252,7 @@ jobs:
           kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
           # Sending Grafana Admin Password to Slack
-          curl -d "{\"text\":\"$(kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode)\"}" -H "Content-Type: application/json" -X POST $SLACK_WEB_HOOK
-
-          # Sending Message to Slack
-          curl -d '{"text":"Hello World from CircleCI Build"}' -H "Content-Type: application/json" -X POST $SLACK_WEB_HOOK
+          curl -d "{\"text\":\"Grafana Password: $(kubectl get secret --namespace default devops-grafana -o jsonpath="{.data.admin-password}" | base64 --decode)\"}" -H "Content-Type: application/json" -X POST $SLACK_WEB_HOOK
 
           # Getting the IP address of service and sending to slack
-          curl -d "{\"text\":\"$(kubectl get svc devops-project  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\"}" -H "Content-Type: application/json" -X POST $SLACK_WEB_HOOK
+          curl -d "{\"text\":\"DevOps Application IP: $(kubectl get svc devops-project  -o jsonpath='{.status.loadBalancer.ingress[0].ip}')\"}" -H "Content-Type: application/json" -X POST $SLACK_WEB_HOOK
