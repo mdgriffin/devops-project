@@ -5,12 +5,12 @@ workflows:
   build-and-deploy:
     jobs:
     - build
-#    - sonar-scan:
-#        requires:
-#        - build
-    - deploy:
+    - sonar-scan:
         requires:
         - build
+    - deploy:
+        requires:
+        - sonar-scan
 
 jobs:
   build:
@@ -156,12 +156,12 @@ jobs:
         command: |
 
           # does cluster exist? Create or load credentials
-          if gcloud container clusters describe devops-cluster2 > /dev/null ;then
+          if gcloud container clusters describe devops-cluster > /dev/null ;then
             echo "Our cluster exists, pull credentials into kubectl"
-            gcloud container clusters get-credentials devops-cluster2
+            gcloud container clusters get-credentials devops-cluster
           else
             echo "Creating cluster for first time"
-            gcloud container clusters create devops-cluster2 --num-nodes=3
+            gcloud container clusters create devops-cluster --num-nodes=3
 
             # Add Docker Login config secret
             echo "Creating Docker config secret"
