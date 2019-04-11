@@ -43,7 +43,7 @@ jobs:
         - ~/.m2
         key: v1-dependencies-{{ checksum "pom.xml" }}
 
-    - run: mvn surefire:test failsafe:integration-test failsafe:verify
+    - run: mvn surefire:test failsafe:integration-test failsafe:verify package
 
     - run:
         command: |
