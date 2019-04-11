@@ -45,9 +45,6 @@ jobs:
 
     - run: mvn surefire:test failsafe:integration-test failsafe:verify
 
-#    - store_artifacts:
-#        path: /target/devops-project-1.0-SNAPSHOT.jar
-
     - run:
         command: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -55,7 +52,7 @@ jobs:
     # build the application image
     - run: docker build --build-arg JAR_FILE=/target/*.jar -t mdgriffin/devops-project:$CIRCLE_BUILD_NUM .
 
-    # deploy the image
+    # deploy the image to Docker Hub
     - run:
         name: Push Docker image to container registry
         command: |
