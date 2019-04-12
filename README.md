@@ -2,6 +2,18 @@
 
 This is a corporate learning management system with a Java backend developed using Spring Boot. The frontend is developed using Vue and Bootstrap (pre-processed with Sass).
 
+## DevOps Presentation
+
+Forwarding Prometheus:
+
+``kubectl port-forward --namespace default svc/devops-prometheus-server 9090:80``
+
+Forwarding Grafana
+
+``kubectl port-forward --namespace default svc/devops-grafana 7070:80``
+
+
+
 ### User Roles / Functionality
 
 - Admin
