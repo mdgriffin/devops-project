@@ -109,16 +109,16 @@ jobs:
 
           sleep 10
 
-           curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=mdgriffin_devops-project > sonarqube_result.json
+          curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=mdgriffin_devops-project > sonarqube_result.json
 
-           if cat sonarqube_result.json | grep -Poq '"ERROR"'
-           then
-               echo 'Failed Quality Gates'
-               exit 1
-           else
-               echo 'Passed Quality Gates'
-               exit 0
-           fi
+          if cat sonarqube_result.json | grep -Poq '"ERROR"'
+          then
+            echo 'Failed Quality Gates'
+            exit 1
+          else
+            echo 'Passed Quality Gates'
+            exit 0
+          fi
 
   deploy:
     docker:
