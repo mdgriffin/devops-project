@@ -62,7 +62,7 @@ public class CourseControllerTest {
         mvc.perform(get("/api/courses").accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(NUM_COURSES)))
-            .andExpect(jsonPath("$[0].title", is("Course 0")));
+            .andExpect(jsonPath("$[0].title", is("Course 1")));
     }
 
     private static List<Course> generateCourses (int numCourses) {
